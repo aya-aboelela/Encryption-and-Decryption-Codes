@@ -1,0 +1,70 @@
+chars='abcdefghijklmnopqrstuvwxyz'
+ptext='helloworld'
+key='secret'
+chtext=''
+k=0
+for i in range(len(ptext)):
+    indfc=chars.find(ptext[i])
+    if k>(len(key)-1):
+        k=0
+    indfk=chars.find(key[k])
+    indfch=(indfc+indfk)%26
+    chtext+=chars[indfch]
+    k += 1
+print(chtext)
+
+
+
+chars='abcdefghijklmnopqrstuvwxyz'
+ptext='zincspgvnu'
+key='secret'
+chtext=''
+k=0
+for i in range(len(ptext)):
+    indfc=chars.find(ptext[i])
+    if k>(len(key)-1):
+        k=0
+    indfk=chars.find(key[k])
+    indfch=(indfc-indfk)%26
+    chtext+=chars[indfch]
+    k += 1
+print(chtext)
+
+
+
+chars='abcdefghijklmnopqrstuvwxyz'
+mat=[[0 for i in range(len(chars))] for j in range(len(chars))]
+for i in range(len(chars)):
+    if i==0:
+        mat[i][:]=chars[0:]
+    else:
+        mat[i][0:25-i]=chars[i:]
+        mat[i][25-i+1:]=chars[0:i]
+print(mat)
+
+
+
+chars='abcdefghijklmnopqrstuvwxyz'
+ptext='helloworld'
+key='secret'
+chtext=''
+k=0
+mat=[[0 for i in range(len(chars))] for j in range(len(chars))]
+for i in range(len(chars)):
+    if i==0:
+        mat[i][:]=chars[0:]
+    else:
+        mat[i][0:25-i]=chars[i:]
+        mat[i][25-i+1:]=chars[0:i]
+for i in range(len(ptext)):
+    indfc=chars.find(ptext[i])
+    if k>(len(key)-1):
+        k=0
+    indfk=chars.find(key[k])
+    k+=1
+    chtext += mat[indfk][indfc]
+print(chtext)
+
+
+
+

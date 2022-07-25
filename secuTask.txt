@@ -1,0 +1,93 @@
+#RC4 Encryption
+
+#Step 1 (Initialize a vector S of 256 bytes)
+S=list(range(256))
+
+#Step 2 (Create a temporary vector T with the same size as S. This vector contains a repeated input key)
+key='secret'
+chtext=''
+T=[]
+for i in range(256) :
+    index=(i%len(key))
+    x=ord(key[index])
+    T.append(x)
+
+#Step 3
+j=0
+for i in range(256):
+    j=(j+S[i]+T[i])%256
+    tmp=S[i] #Swap
+    S[i]=S[j]
+    S[j] =tmp
+
+Plain_txt='hello world'
+ 
+#Step 4 (we generate the key that will be used to encrypt the plain text.)
+j=0
+new_Key=[]
+for i in range(len(Plain_txt)):
+    i = (i + 1)% 256;   
+    j=(j+S[i])%256;
+    tmp=S[i] #Swap
+    S[i]=S[j]
+    S[j] =tmp
+    t = (S[i] + S[j])%256;
+    k = S[t];
+    new_Key.append(k)
+    
+#Step 5  (XOR each byte in the key with the corresponding byte of plain text to generate the cipher text.)
+for i in range(len(Plain_txt)):
+    ch=ord(Plain_txt[i]) ^ new_Key[i] #Cipher_Dec
+    chtext+=chr(ch)
+    
+print('Encrypted_text : ',chtext)
+
+//output
+Encrypted_text :  S¾pí¡É@§ß
+
+*********************************************************************
+
+#RC4 Decryption
+
+#Step 1 (Initialize a vector S of 256 bytes)
+S=list(range(256))
+
+#Step 2 (Create a temporary vector T with the same size as S. This vector contains a repeated input key)
+key='secret'
+Plain_txt=''
+T=[]
+for i in range(256) :
+    index=(i%len(key))
+    x=ord(key[index])
+    T.append(x)
+
+#Step 3
+j=0
+for i in range(256):
+    j=(j+S[i]+T[i])%256
+    tmp=S[i] #Swap
+    S[i]=S[j]
+    S[j] =tmp
+
+chtext='S¾pí¡É@§ß'
+ 
+#Step 4 (we generate the key that will be used to decrypt the cipher text.)
+j=0
+new_Key=[]
+for i in range(len(chtext)):
+    i = (i + 1)% 256;   
+    j=(j+S[i])%256;
+    tmp=S[i] #Swap
+    S[i]=S[j]
+    S[j] =tmp
+    t = (S[i] + S[j])%256;
+    k = S[t];
+    new_Key.append(k)
+#Step 5   
+for i in range(len(chtext)):
+    ch=ord(chtext[i]) ^ new_Key[i] #Plain_Dec
+    Plain_txt+=chr(ch)
+print('Decrypted_text :',Plain_txt)
+
+//output
+Decrypted_text : hello world
